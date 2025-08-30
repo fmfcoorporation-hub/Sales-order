@@ -1,94 +1,136 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
   <meta charset="UTF-8">
-  <title>Sales Dashboard</title>
-  <!-- Chart.js -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Buat Matul Anj, dari Mas Ropek si Penurut 😘</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background: #0d1b2a;
-      color: white;
-      margin: 0;
-      padding: 0;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      background-color: #fff0f5;
+      text-align: center;
+      padding: 20px;
+      overflow: hidden;
     }
-    .dashboard { padding: 20px; text-align: center; }
-    .filters { display: flex; justify-content: space-around; margin-bottom: 20px; }
-    .filters button { margin: 2px; padding: 8px 12px; border: none; background: #1b263b; color: white; cursor: pointer; border-radius: 5px; }
-    .filters button:hover { background: #415a77; }
-    .cards { display: flex; justify-content: center; gap: 20px; margin-bottom: 30px; }
-    .card { background: #1b263b; padding: 20px; border-radius: 8px; width: 200px; }
-    .charts { display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; }
-    .chart-container { background: #1b263b; padding: 20px; border-radius: 8px; }
+    h1 {
+      color: #ff4d6d;
+      animation: goyang 1s infinite alternate;
+    }
+    @keyframes goyang {
+      from { transform: rotate(-3deg); }
+      to { transform: rotate(3deg); }
+    }
+    .foto {
+      max-width: 230px;
+      border-radius: 12px;
+      margin: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+    .pesan {
+      margin-top: 20px;
+      font-size: 18px;
+      color: #444;
+      background: #ffe6e6;
+      display: inline-block;
+      padding: 15px;
+      border-radius: 10px;
+      animation: kedip 1s infinite alternate;
+    }
+    @keyframes kedip {
+      from { opacity: 1; }
+      to { opacity: 0.6; }
+    }
+    .opsi {
+      margin-top: 20px;
+    }
+    button {
+      margin: 5px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      background: #ff80a6;
+      color: white;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover {
+      background: #ff4d6d;
+    }
+    /* Tombol kabur */
+    #maafBtn {
+      position: relative;
+      transition: all 0.3s ease;
+    }
+    #maafBtn.move {
+      transform: translateX(150px);
+    }
+    /* Love jatuh */
+    .love {
+      position: fixed;
+      top: -10px;
+      font-size: 20px;
+      color: red;
+      animation: jatuh 4s linear infinite;
+    }
+    @keyframes jatuh {
+      from { top: -10px; opacity: 1; }
+      to { top: 100vh; opacity: 0; }
+    }
   </style>
 </head>
 <body>
-  <div class="dashboard">
-    <h1>SALES DASHBOARD - 2025</h1>
-    <div class="cards">
-      <div class="card"><h3>Total Revenue</h3><p id="revenue">2,297,794</p></div>
-      <div class="card"><h3>Total Profit</h3><p id="profit">286,471</p></div>
-    </div>
-    <div class="charts">
-      <div class="chart-container"><h3>Sales by Category</h3><canvas id="categoryChart"></canvas></div>
-      <div class="chart-container"><h3>Qty by Sub-Category</h3><canvas id="subcategoryChart"></canvas></div>
-      <div class="chart-container"><h3>Sales vs Profit</h3><canvas id="salesProfitChart"></canvas></div>
-      <div class="chart-container"><h3>Sales by Region</h3><canvas id="regionChart"></canvas></div>
-    </div>
+
+  <h1>Heii Matul Anj 😘 <br> Dari Ropek si bocah bagus 💌</h1>
+  <p>Aku tau kamu lagi marah, tapi liat ini dulu...</p>
+
+  <!-- Foto-fotonya -->
+  <img src="foto1.jpg" class="foto">
+  <img src="foto2.jpg" class="foto">
+  <img src="foto3.jpg" class="foto">
+  <img src="foto4.jpg" class="foto">
+
+  <div class="pesan" id="pesan">Kamu tetep cantik meski lagi ngambek 🥰</div>
+
+  <div class="opsi">
+    <button onclick="ubahPesan('Kalau kamu marah, Mat anj bingung... harus lari ke Mars atau ke warung es krim? 🍦')">Es Krim 🍦</button>
+    <button onclick="ubahPesan('Kamu tau nggak? Kamu tuh kayak WiFi... bikin Mat anj betah diem di sini 💓')">WiFi 💓</button>
+    <button onclick="ubahPesan('Jangan marah ya... nanti wajah imutmu berubah jadi singa 🦁 wkwk')">Singa 🦁</button>
+    <button onclick="ubahPesan('Deal ya, besok Mat anj traktir bakso biar kamu senyum lagi 🤭')">Bakso 🍜</button>
   </div>
 
+  <br><br>
+  <button id="maafBtn" onclick="ubahPesan('Yeayyy akhirnya kamu maafin Mat anj 😍')">Maafin aku 🙏</button>
+
+  <!-- Musik menjengkelkan -->
+  <audio autoplay loop>
+    <source src="musik.mp3" type="audio/mpeg">
+    Browser kamu nggak support audio.
+  </audio>
+
   <script>
-    // Sales by Category
-    new Chart(document.getElementById("categoryChart"), {
-      type: "bar",
-      data: {
-        labels: ["Technology", "Office Supplies", "Furniture"],
-        datasets: [{
-          label: "Sales",
-          data: [800000, 400000, 700000],
-          backgroundColor: ["#ff6384", "#36a2eb", "#ffce56"]
-        }]
-      }
+    function ubahPesan(teks) {
+      document.getElementById("pesan").innerText = teks;
+    }
+
+    // Tombol kabur
+    const maafBtn = document.getElementById("maafBtn");
+    maafBtn.addEventListener("mouseover", () => {
+      maafBtn.classList.toggle("move");
     });
 
-    // Qty by Sub-Category
-    new Chart(document.getElementById("subcategoryChart"), {
-      type: "line",
-      data: {
-        labels: ["Accessories", "Art", "Binders", "Bookcases", "Chairs", "Copiers", "Envelopes", "Fasteners", "Labels", "Machines", "Paper", "Phones", "Storage", "Supplies", "Tables"],
-        datasets: [{
-          label: "Qty",
-          data: [2000, 4000, 6000, 1500, 5000, 2500, 2000, 3000, 4000, 1000, 6500, 7000, 3500, 2500, 1500],
-          borderColor: "#36a2eb",
-          fill: false
-        }]
-      }
-    });
+    // Love jatuh random
+    function buatLove() {
+      const love = document.createElement("div");
+      love.classList.add("love");
+      love.innerText = "❤";
+      love.style.left = Math.random() * window.innerWidth + "px";
+      love.style.fontSize = Math.random() * 20 + 15 + "px";
+      document.body.appendChild(love);
 
-    // Sales vs Profit
-    new Chart(document.getElementById("salesProfitChart"), {
-      type: "bar",
-      data: {
-        labels: ["Central", "East", "South", "West"],
-        datasets: [
-          { label: "Sales", data: [500000, 700000, 400000, 750000], backgroundColor: "#ffce56" },
-          { label: "Profit", data: [100000, 150000, 80000, 120000], type: "line", borderColor: "#ff6384", fill: false }
-        ]
-      }
-    });
-
-    // Sales by Region
-    new Chart(document.getElementById("regionChart"), {
-      type: "pie",
-      data: {
-        labels: ["West", "South", "East", "Central"],
-        datasets: [{
-          data: [32, 17, 29, 22],
-          backgroundColor: ["#36a2eb", "#ff6384", "#ffce56", "#4bc0c0"]
-        }]
-      }
-    });
+      setTimeout(() => { love.remove(); }, 4000);
+    }
+    setInterval(buatLove, 500);
   </script>
+
 </body>
 </html>
